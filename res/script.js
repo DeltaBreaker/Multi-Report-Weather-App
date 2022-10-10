@@ -3,6 +3,14 @@ var baseForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=";
 var apiKey = "6992b9ccb68fd1c4ce20682131e41c4c";
 var unitType = "imperial";
 var dayLimit = 5;
+var loadingData = false;
+
+document.getElementById("search-button").addEventListener("click", function() {
+    if(!loadingData) {
+        loadWeatherData(document.getElementById("search-input").value);
+        loadingData = true;
+    }
+});
 
 function buildGeoUrl(city, apiKey) {
     return baseGeoURL + city + "&apikey=" + apiKey;
@@ -26,6 +34,7 @@ function loadWeatherData(city) {
 
                             var currentDate = moment.unix(data.list[0].dt).format("MMM Do YYYY");
                             $("#result-today-city").text(data.city.name + ", " + data.city.country + " " + currentDate);
+                            $("#result-icon").attr("src", "http://openweathermap.org/img/wn/" + data.list[0].weather[0].icon + ".png");
                             $("#current-temp").text("Temp: " + data.list[0].main.temp + "°F");
                             $("#current-wind").text("Wind: " + data.list[0].wind.speed + " MPH");
                             $("#current-humidity").text("Humidity: " + data.list[0].main.humidity + "%");
@@ -65,6 +74,7 @@ function loadWeatherData(city) {
                         });
 
                         $("#results-container").css("display", "flex");
+                        loadingData = false;
                     }
                 });
             });

@@ -88,6 +88,11 @@ current-results {
     margin: var(--page-margin);
 }
 
+#result-icon {
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+}
+
 h3 {
     color: var(--text-color);
     text-align: center;
