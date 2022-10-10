@@ -24,7 +24,11 @@ function loadWeatherData(city) {
                     if(response.ok) {
                         response.json().then(function(data) {
                             console.log(data);
-                            console.log(moment.unix(data.list[0].dt).format("MMM Do YYYY"));
+                            var currentDate = moment.unix(data.list[0].dt).format("MMM Do YYYY");
+                            $("#result-today-city").text(data.city.name + ", " + data.city.country + " " + currentDate);
+                            $("#current-temp").text("Temp: " + data.list[0].main.temp + "°F");
+                            $("#current-wind").text("Wind: " + data.list[0].wind.speed + " MPH");
+                            $("#current-humidity").text("Humidity: " + data.list[0].main.humidity + "%");
                         });
                     }
                 });
