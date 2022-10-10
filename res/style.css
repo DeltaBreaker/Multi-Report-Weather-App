@@ -1,7 +1,7 @@
 :root {
-    --background-color: #3e2731;
-    --accent-color: #f6757a;
-    --text-color: #b55088;
+    --background-color: #193c3e;
+    --accent-color: #8b9bb4;
+    --text-color: #5a6988;
     --hover-color: #3a4466;
     --page-margin: 15px;
 }
@@ -28,11 +28,12 @@ h1 {
 content-container {
     margin: var(--page-margin);
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
 search-container {
-    flex: 0 1 24.5%;
+    flex: 1 1 24.5%;
     background-color: var(--accent-color);
     box-shadow: 10px 10px 0px var(--text-color);
 }
@@ -75,9 +76,9 @@ hr {
 }
 
 results-container {
-    display: flex;
+    display: none;
     flex-direction: column;
-    flex: 0 1 74.5%;
+    flex: 1 1 74.5%;
     background-color: var(--accent-color);
     box-shadow: 10px 10px 0px var(--text-color);
 }
@@ -94,6 +95,7 @@ h3 {
 
 #week-results {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     margin-bottom: var(--page-margin);
 }

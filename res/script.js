@@ -4,8 +4,6 @@ var apiKey = "6992b9ccb68fd1c4ce20682131e41c4c";
 var unitType = "imperial";
 var dayLimit = 5;
 
-loadWeatherData("corona");
-
 function buildGeoUrl(city, apiKey) {
     return baseGeoURL + city + "&apikey=" + apiKey;
 }
@@ -25,6 +23,7 @@ function loadWeatherData(city) {
                     if(response.ok) {
                         response.json().then(function(data) {
                             console.log(data);
+
                             var currentDate = moment.unix(data.list[0].dt).format("MMM Do YYYY");
                             $("#result-today-city").text(data.city.name + ", " + data.city.country + " " + currentDate);
                             $("#current-temp").text("Temp: " + data.list[0].main.temp + "°F");
@@ -37,13 +36,19 @@ function loadWeatherData(city) {
                             for(var i = 1; i < dayLimit + 1; i++) {
                                 var result = $("<div>");
                                 result.css("border", "2px solid #b55088");
-                                result.css("flex", "0 1 18%");
+                                result.css("flex", "0 0 18%");
 
                                 var dateHeader = $("<h3>");
                                 dateHeader.text(moment.unix(data.list[i * 8 - 1].dt).format("MMM Do YYYY"));
                                 result.append(dateHeader);
 
-                                var tempHeader = $git("<h4>");
+                                var icon = $("<img>");
+                                icon.attr("src", "http://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + ".png");
+                                icon.css("margin-left", "50%");
+                                icon.css("transform", "translate(-50%, 0)");
+                                result.append(icon);
+
+                                var tempHeader = $("<h4>");
                                 tempHeader.text("Temp: " + data.list[i * 8 - 1].main.temp + "°F");
                                 result.append(tempHeader);
 
@@ -58,6 +63,8 @@ function loadWeatherData(city) {
                                 weekResults.append(result);
                             }
                         });
+
+                        $("#results-container").css("display", "flex");
                     }
                 });
             });
