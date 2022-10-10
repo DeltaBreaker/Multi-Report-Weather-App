@@ -88,11 +88,6 @@ current-results {
     margin: var(--page-margin);
 }
 
-#result-icon {
-    margin-left: 50%;
-    transform: translate(-50%, 0);
-}
-
 h3 {
     color: var(--text-color);
     text-align: center;
@@ -108,4 +103,27 @@ h3 {
 h4 {
     color: var(--text-color);
     text-align: center;
+}
+
+.history-button {
+    margin-bottom: var(--page-margin);
+
+    width: 50%;
+    border-radius: 20px;
+    border: 0px solid white;
+    color: var(--accent-color);
+    background-color: var(--text-color);
+    font-weight: bolder;
+    height: 25px;
+}
+
+.history-button:hover {
+    color: var(--accent-color);
+    background-color: var(--background-color);
+    cursor: pointer;
+}
+
+.center-aligned {
+    margin-left: 50%;
+    transform: translate(-50%, 0);
 }

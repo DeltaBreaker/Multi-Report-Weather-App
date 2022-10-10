@@ -4,13 +4,51 @@ var apiKey = "6992b9ccb68fd1c4ce20682131e41c4c";
 var unitType = "imperial";
 var dayLimit = 5;
 var loadingData = false;
+var searchList = $("#search-history");
+var searchHistory = [];
 
-document.getElementById("search-button").addEventListener("click", function() {
+$("#search-button").on("click", function() {
     if(!loadingData) {
-        loadWeatherData(document.getElementById("search-input").value);
+        var input = document.getElementById("search-input").value;
+        loadWeatherData(input);
         loadingData = true;
     }
 });
+
+loadFromLocalStorage();
+
+function addToHistory(input) {
+    if(!searchHistory.includes(input)) {
+        searchHistory.push(input);
+
+        var historyButton = $("<button>");
+        historyButton.text(input);
+        historyButton.addClass("history-button center-aligned");
+        historyButton.on("click", function() {
+            loadWeatherData($(this).text());
+        });
+        saveToLocalStorage();
+
+        searchList.append(historyButton);
+    }
+}
+
+function saveToLocalStorage() {
+    var stringBuilder = "";
+    for(const i of searchHistory) {
+        stringBuilder += i + "$";
+    }
+    localStorage.setItem("history", stringBuilder);
+}
+
+function loadFromLocalStorage() {
+    var history = localStorage.getItem("history").split("$");
+    for(const i of history) {
+        if(i !== "") {
+            addToHistory(i);
+        }
+    }
+}
 
 function buildGeoUrl(city, apiKey) {
     return baseGeoURL + city + "&apikey=" + apiKey;
@@ -30,8 +68,6 @@ function loadWeatherData(city) {
                 fetch(buildForecastUrl(lat, lon, unitType, apiKey)).then(function(response) {
                     if(response.ok) {
                         response.json().then(function(data) {
-                            console.log(data);
-
                             var currentDate = moment.unix(data.list[0].dt).format("MMM Do YYYY");
                             $("#result-today-city").text(data.city.name + ", " + data.city.country + " " + currentDate);
                             $("#result-icon").attr("src", "http://openweathermap.org/img/wn/" + data.list[0].weather[0].icon + ".png");
@@ -53,8 +89,7 @@ function loadWeatherData(city) {
 
                                 var icon = $("<img>");
                                 icon.attr("src", "http://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + ".png");
-                                icon.css("margin-left", "50%");
-                                icon.css("transform", "translate(-50%, 0)");
+                                icon.addClass("center-aligned");
                                 result.append(icon);
 
                                 var tempHeader = $("<h4>");
@@ -71,6 +106,8 @@ function loadWeatherData(city) {
 
                                 weekResults.append(result);
                             }
+
+                            addToHistory(data.city.name);
                         });
 
                         $("#results-container").css("display", "flex");
