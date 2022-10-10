@@ -2,6 +2,7 @@ var baseGeoURL = "https://api.openweathermap.org/geo/1.0/direct?q=";
 var baseForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=";
 var apiKey = "6992b9ccb68fd1c4ce20682131e41c4c";
 var unitType = "imperial";
+var dayLimit = 5;
 
 loadWeatherData("corona");
 
@@ -29,6 +30,33 @@ function loadWeatherData(city) {
                             $("#current-temp").text("Temp: " + data.list[0].main.temp + "°F");
                             $("#current-wind").text("Wind: " + data.list[0].wind.speed + " MPH");
                             $("#current-humidity").text("Humidity: " + data.list[0].main.humidity + "%");
+
+                            var weekResults = $("#week-results");
+                            weekResults.empty();
+
+                            for(var i = 1; i < dayLimit + 1; i++) {
+                                var result = $("<div>");
+                                result.css("border", "2px solid #b55088");
+                                result.css("flex", "0 1 18%");
+
+                                var dateHeader = $("<h3>");
+                                dateHeader.text(moment.unix(data.list[i * 8 - 1].dt).format("MMM Do YYYY"));
+                                result.append(dateHeader);
+
+                                var tempHeader = $git("<h4>");
+                                tempHeader.text("Temp: " + data.list[i * 8 - 1].main.temp + "°F");
+                                result.append(tempHeader);
+
+                                var windHeader = $("<h4>");
+                                windHeader.text("Wind: " + data.list[i * 8 - 1].wind.speed + " MPH");
+                                result.append(windHeader);
+
+                                var humidityHeader = $("<h4>");
+                                humidityHeader.text("Humidity: " + data.list[i * 8 - 1].main.humidity + "%");
+                                result.append(humidityHeader);
+
+                                weekResults.append(result);
+                            }
                         });
                     }
                 });

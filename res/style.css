@@ -91,3 +91,14 @@ h3 {
     color: var(--text-color);
     text-align: center;
 }
+
+#week-results {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: var(--page-margin);
+}
+
+h4 {
+    color: var(--text-color);
+    text-align: center;
+}
